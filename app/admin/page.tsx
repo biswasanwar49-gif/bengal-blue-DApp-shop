@@ -46,7 +46,7 @@ export default function AdminPage() {
         <aside className="hidden w-64 flex-col gap-6 bg-white p-6 shadow-soft lg:flex sticky top-0 h-screen overflow-y-auto">
           <div className="rounded-[1.75rem] bg-gradient-to-br from-bengal-blue to-bengal-blue-soft p-5 text-white">
             <p className="text-xs uppercase tracking-[0.3em] text-slate-200">Admin store owner</p>
-            <p className="mt-3 text-lg font-semibold">Bengal Store</p>
+            <p className="mt-3 text-lg font-semibold">BlockCart</p>
             <p className="mt-1 text-sm text-slate-200">Admin access</p>
           </div>
 
