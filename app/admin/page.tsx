@@ -240,8 +240,8 @@ export default function AdminPage() {
                     <svg className="h-48 w-48" viewBox="0 0 100 100">
                       {[45, 30, 18, 7].reduce((acc, val, idx) => {
                         const colors = ['#1f3a5f', '#06b6d4', '#f59e0b', '#f43f5e'];
-                        const startAngle = acc.reduce((sum, o) => sum + o.percentage, 0) * 3.6;
-                        const endAngle = (acc.reduce((sum, o) => sum + o.percentage, 0) + val) * 3.6;
+                        const startAngle = acc.reduce((sum, o: any) => sum + o.percentage, 0) * 3.6;
+                        const endAngle = (acc.reduce((sum, o: any) => sum + o.percentage, 0) + val) * 3.6;
                         const startRad = (startAngle - 90) * (Math.PI / 180);
                         const endRad = (endAngle - 90) * (Math.PI / 180);
                         const x1 = 50 + 45 * Math.cos(startRad);
@@ -256,7 +256,7 @@ export default function AdminPage() {
                           percentage: val,
                         });
                         return acc;
-                      }, []).map((segment, idx) => (
+                      }, [] as any[]).map((segment, idx) => (
                         <path key={idx} d={segment.path} fill={segment.fill} stroke="white" strokeWidth="1" />
                       ))}
                     </svg>
