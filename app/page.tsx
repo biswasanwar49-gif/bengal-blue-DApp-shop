@@ -117,7 +117,7 @@ const [walletAddress, setWalletAddress] = useState<string>("");
       alert("MetaMask is not installed. Please install it to connect your wallet.");
     }
   };
-  const ADMIN_WALLET = "0x1db939527fe4870f7d5c9dd5da26b01b2f0eb92d".toLowerCase();
+  const ADMIN_WALLET = "0x1dB969Dc7F8656B47774e6f5b73B3c103013b92D".toLowerCase();
 
   const handleAdminClick = () => {
     // 1. Check if the wallet is connected by verifying if walletAddress state has a value. If not, it prompts the user to connect their MetaMask wallet first.
