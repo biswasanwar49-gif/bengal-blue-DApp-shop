@@ -1,5 +1,5 @@
 'use client';
-
+import { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import {
@@ -95,6 +95,34 @@ const featureList = [
 ];
 
 export default function Home() {
+
+  
+
+
+  const [walletAddress, setWalletAddress] = useState<string>("");
+
+  // ওয়ালেট কানেক্ট করার মূল ফাংশন
+  const connectWallet = async () => {
+    if (typeof window !== 'undefined' && (window as any).ethereum) {
+      try {
+        // মেটামাস্ক থেকে অ্যাকাউন্ট রিকোয়েস্ট করা
+        const accounts = await (window as any).ethereum.request({
+          method: 'eth_requestAccounts',
+        });
+        // প্রথম অ্যাকাউন্টটি সেভ করা
+        setWalletAddress(accounts[0]);
+        alert("Wallet connected!" );
+      } catch (error) {
+        console.error("ইউজার কানেক্ট রিজেক্ট করেছেন", error);
+      }
+    } else {
+      alert("মেটামাস্ক ইনস্টল করুন অথবা ওয়ালেট সাপোর্টেড ব্রাউজার ব্যবহার করুন!");
+    }
+  };
+  const disconnectWallet = () => {
+    setWalletAddress(""); 
+    alert("Wallet is now disconnected.");
+  };
   return (
     <main className="min-h-screen overflow-hidden">
       <div className="bg-white/90 border-b border-slate-200">
@@ -137,12 +165,20 @@ export default function Home() {
               <UserCircle className="h-4 w-4" />
               My Account
             </Link>
-            <button className="inline-flex items-center gap-2 rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-soft transition hover:bg-blue-500">
-              <Wallet className="h-4 w-4" />
-              Connect Wallet
-            </button>
-          </div>
-        </div>
+      <button 
+  onClick={walletAddress ? disconnectWallet : connectWallet}
+  className="rounded-full bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+>
+  {walletAddress 
+    ? `${walletAddress.substring(0, 6)}...${walletAddress.substring(walletAddress.length - 4)} (Disconnect)` 
+    : "Connect Wallet"
+  }
+</button>
+      </div>
+   </div>
+   
+
+        
       </header>
 
       <section id="home" className="relative overflow-hidden px-4 pb-16 pt-10 sm:px-6 lg:px-8">

@@ -1,7 +1,7 @@
-{
-  "name": "ecommerce-dapp",
-  "private": true,
+ {
+  "name": "ecommerce",
   "version": "0.1.0",
+  "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -9,27 +9,23 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@reduxjs/toolkit": "1.9.5",
-    "framer-motion": "11.0.0",
-    "lucide-react": "0.495.0",
-    "next": "^13.5.6",
-    "react": "18.3.1",
-    "react-dom": "18.3.1",
-    "react-redux": "8.1.3"
+    "next": "13.5.6",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "lucide-react": "0.284.0",
+    "framer-motion": "10.16.4",
+    "clsx": "2.0.0",
+    "tailwind-merge": "1.14.0"
   },
   "devDependencies": {
-    "@radix-ui/react-slot": "^1.1.0",
-    "@types/node": "^20.0.0",
-    "@types/react": "18.3.3",
-    "@types/react-dom": "18.3.3",
-    "autoprefixer": "10.4.19",
-    "class-variance-authority": "0.7.0",
-    "clsx": "2.1.1",
-    "eslint": "8.57.0",
-    "eslint-config-next": "^13.5.6",
-    "postcss": "8.4.35",
-    "tailwind-merge": "2.3.0",
-    "tailwindcss": "3.4.4",
-    "typescript": "5.3.3"
+    "typescript": "5.2.2",
+    "@types/node": "20.8.2",
+    "@types/react": "18.2.25",
+    "@types/react-dom": "18.2.10",
+    "autoprefixer": "10.4.15",
+    "postcss": "8.4.31",
+    "tailwindcss": "3.3.3",
+    "eslint": "8.50.0",
+    "eslint-config-next": "13.5.6"
   }
 }
