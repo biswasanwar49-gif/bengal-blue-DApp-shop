@@ -85,6 +85,10 @@ export default function Home() {
       console.error("Error fetching products from contract:", error);
       setLoading(false);
     }
+    finally {
+    setLoading(false);
+  }
+  
   }
 
   // ১. প্রোডাক্ট কেনার জন্য ফ্রন্টএন্ড ফাংশন (Buy Product)
