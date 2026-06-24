@@ -53,21 +53,21 @@ export default function Home() {
       setAccount(userAddress);
 
       // স্মার্ট কন্ট্রাক্ট ইনস্ট্যান্স তৈরি
-      const marketplaceContract = new ethers.Contract(
+      const contractInstance = new ethers.Contract(
         ESCROW_MARKETPLACE_ADDRESS,
         ESCROW_MARKETPLACE_ABI,
         signer
       );
-      setContract(marketplaceContract);
+      setContract(contractInstance);
 
       // টোটাল প্রোডাক্ট কাউন্ট নেওয়া
-      const count = await marketplaceContract.productCount();
+      const count = await contractInstance.productCount();
       const totalProducts = Number(count);
       const tempProducts: Product[] = [];
 
       // লুপ চালিয়ে প্রতিটি প্রোডাক্ট লোড করা
       for (let i = 1; i <= totalProducts; i++) {
-        const prod = await marketplaceContract.getProduct(i);
+        const prod = await contractInstance.getProduct(i);
         
         tempProducts.push({
           id: Number(prod.id),
@@ -88,7 +88,7 @@ export default function Home() {
     finally {
     setLoading(false);
   }
-  
+
   }
 
   // ১. প্রোডাক্ট কেনার জন্য ফ্রন্টএন্ড ফাংশন (Buy Product)
