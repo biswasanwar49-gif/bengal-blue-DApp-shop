@@ -26,15 +26,17 @@ export default function Home() {
   const [contract, setContract] = useState<any>(null);
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [isMounted, setIsMounted] = useState(false);
 
   // নতুন প্রোডাক্ট তৈরি করার স্টেট
   const [productName, setProductName] = useState<string>("");
   const [productPrice, setProductPrice] = useState<string>("");
   const [listingLoading, setListingLoading] = useState<boolean>(false);
 
-  useEffect(() => {
-    loadBlockchainData();
-  }, []);
+   useEffect(() => {
+  setIsMounted(true); // ১. মাউন্ট স্টেট ট্রু করবে
+  loadBlockchainData(); // ২. ব্লকচেইন ডাটা লোড করবে
+}, []);
 
   // ব্লকচেইন থেকে ডেটা লোড করার মূল ফাংশন
   async function loadBlockchainData() {
@@ -161,7 +163,7 @@ const handleConfirmReceived = async (id: number) => {
     }
   }
 
-  if (loading) {
+   if (!isMounted || loading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-slate-950 text-white">
         <p className="text-lg font-semibold animate-pulse">Loading Blockchain Marketplace...</p>
