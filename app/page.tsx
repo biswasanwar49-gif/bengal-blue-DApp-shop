@@ -53,21 +53,21 @@ export default function Home() {
       setAccount(userAddress);
 
       // স্মার্ট কন্ট্রাক্ট ইনস্ট্যান্স তৈরি
-      const contractInstance = new ethers.Contract(
+      const marketplaceContract = new ethers.Contract(
         ESCROW_MARKETPLACE_ADDRESS,
         ESCROW_MARKETPLACE_ABI,
         signer
       );
-      setContract(contractInstance);
+      setContract(marketplaceContract);
 
       // টোটাল প্রোডাক্ট কাউন্ট নেওয়া
-      const count = await contractInstance.productCount();
+      const count = await marketplaceContract.productCount();
       const totalProducts = Number(count);
       const tempProducts: Product[] = [];
 
       // লুপ চালিয়ে প্রতিটি প্রোডাক্ট লোড করা
       for (let i = 1; i <= totalProducts; i++) {
-        const prod = await contractInstance.getProduct(i);
+        const prod = await marketplaceContract.getProduct(i);
         
         tempProducts.push({
           id: Number(prod.id),
@@ -88,7 +88,7 @@ export default function Home() {
     finally {
     setLoading(false);
   }
-
+  
   }
 
   // ১. প্রোডাক্ট কেনার জন্য ফ্রন্টএন্ড ফাংশন (Buy Product)
@@ -140,7 +140,7 @@ const handleConfirmReceived = async (id: number) => {
   }
 };
 
-  // নতুন প্রোডাক্ট লিস্ট করার ফাংশন
+ // নতুন প্রোডাক্ট লিস্ট করার ফাংশন
   async function mintAndListProduct(e: React.FormEvent) {
     e.preventDefault();
     if (!contract || !productName || !productPrice) return;
@@ -164,6 +164,17 @@ const handleConfirmReceived = async (id: number) => {
       alert("Listing failed!");
     } finally {
       setListingLoading(false);
+    }
+  }
+  async function buyProduct(productId: number, price: any) {
+    if (!contract) return;
+    try {
+      const tx = await contract.buyProduct(productId, { value: price });
+      await tx.wait();
+      alert("Product Purchased Successfully!");
+      window.location.reload();
+    } catch (error) {
+      console.error("Error purchasing product:", error);
     }
   }
 
@@ -238,6 +249,40 @@ const handleConfirmReceived = async (id: number) => {
             </button>
           </form>
         </section>
+        
+    
+  
+
+  
+  <div className="product-list-section" style={{ padding: '20px', background: '#121214', color: '#fff', borderRadius: '12px', marginTop: '20px' }}>
+    <h2>লাইভ ব্লকচেইন প্রোডাক্টসমূহ ({products.length})</h2>
+    
+    {products.length === 0 ? (
+      <p style={{ color: '#94a3b8', marginTop: '10px' }}>কোনো প্রোডাক্ট লাইভ নেই। অনুগ্রহ করে নতুন প্রোডাক্ট যোগ করুন।</p>
+    ) : (
+      <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', marginTop: '15px' }}>
+        {products.map((product: any, index: number) => (
+          <div key={index} style={{ border: '1px solid #334155', padding: '15px', borderRadius: '8px', background: '#1e293b', width: '250px' }}>
+            <h4 style={{ fontWeight: 'bold' }}>{product.name}</h4>
+            <p style={{ fontSize: '14px', margin: '5px 0' }}>মূল্য: {ethers.formatEther(product.price)} ETH</p>
+            <p style={{ fontSize: '14px' }}>অবস্থা: {product.active ? "🟢 বিক্রির জন্য প্রস্তুত" : "🔴 বিক্রিত"}</p>
+            
+            {product.active && (
+              <button 
+                onClick={() => buyProduct(product.id, product.price)}
+                style={{ background: '#3b82f6', color: '#fff', border: 'none', padding: '8px 12px', borderRadius: '5px', cursor: 'pointer', marginTop: '10px', width: '100%', fontWeight: 'semibold' }}
+              >
+                Buy Product
+              </button>
+            )}
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+  
+
+
 
         {/* লাইভ মার্কেটপ্লেস গ্রিড */}
         <section className="lg:col-span-2">
