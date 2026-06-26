@@ -72,7 +72,7 @@ export default function Home() {
         tempProducts.push({
           id: Number(prod.id),
           name: prod.name,
-          priceInEther: ethers.formatEther(prod.priceWei),
+          priceInEther: ethers.formatEther(prod.priceWei || "0"),
           seller: prod.seller,
           active: prod.active,
         });
@@ -116,7 +116,7 @@ const handleBuyProduct = async (id: number, priceInEther: string) => {
 const handleMarkShipped = async (id: number) => {
   try {
     if (!contract) return alert("Contract not loaded!");
-    const tx = await contract.markShipped(id);
+    const tx = await contract.markShipped(4);
     await tx.wait();
     alert("Product marked as Shipped!");
     window.location.reload();
@@ -130,7 +130,7 @@ const handleMarkShipped = async (id: number) => {
 const handleConfirmReceived = async (id: number) => {
   try {
     if (!contract) return alert("Contract not loaded!");
-    const tx = await contract.confirmReceived(id);
+    const tx = await contract.confirmReceived(4);
     await tx.wait();
     alert("Delivery Confirmed & Funds Released!");
     window.location.reload();
@@ -255,17 +255,17 @@ const handleConfirmReceived = async (id: number) => {
 
   
   <div className="product-list-section" style={{ padding: '20px', background: '#121214', color: '#fff', borderRadius: '12px', marginTop: '20px' }}>
-    <h2>লাইভ ব্লকচেইন প্রোডাক্টসমূহ ({products.length})</h2>
+    <h2>live blockchain products ({products.length})</h2>
     
     {products.length === 0 ? (
-      <p style={{ color: '#94a3b8', marginTop: '10px' }}>কোনো প্রোডাক্ট লাইভ নেই। অনুগ্রহ করে নতুন প্রোডাক্ট যোগ করুন।</p>
+      <p style={{ color: '#94a3b8', marginTop: '10px' }}>No products are live. Please add new products.</p>
     ) : (
       <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', marginTop: '15px' }}>
         {products.map((product: any, index: number) => (
           <div key={index} style={{ border: '1px solid #334155', padding: '15px', borderRadius: '8px', background: '#1e293b', width: '250px' }}>
             <h4 style={{ fontWeight: 'bold' }}>{product.name}</h4>
-            <p style={{ fontSize: '14px', margin: '5px 0' }}>মূল্য: {ethers.formatEther(product.price)} ETH</p>
-            <p style={{ fontSize: '14px' }}>অবস্থা: {product.active ? "🟢 বিক্রির জন্য প্রস্তুত" : "🔴 বিক্রিত"}</p>
+            <p style={{ fontSize: '14px', margin: '5px 0' }}>Price: {ethers.formatEther(product.price || "0")} ETH</p>
+            <p style={{ fontSize: '14px' }}>Status: {product.active ? "🟢 Ready for Sale" : "🔴 Sold"}</p>
             
             {product.active && (
               <button 
